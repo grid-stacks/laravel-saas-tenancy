@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        return AuthorResource::collection(Author::all());
     }
 
     /**
@@ -35,7 +36,11 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $author = Author::create([
+            'name' => $request->name
+        ]);
+
+        return new AuthorResource($author);
     }
 
     /**
@@ -46,7 +51,7 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        //
+        return new AuthorResource($author);
     }
 
     /**
@@ -69,7 +74,11 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        $author->update([
+            'name' => $request->name
+        ]);
+
+        return new AuthorResource($author);
     }
 
     /**
@@ -80,6 +89,8 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
+
+        return response(null, 204);
     }
 }
