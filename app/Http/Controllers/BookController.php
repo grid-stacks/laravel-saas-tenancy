@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        return BookResource::collection(Book::all());
     }
 
     /**
@@ -33,9 +35,15 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        //
+        $book = Book::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'publication_year' => $request->publication_year
+        ]);
+
+        return new BookResource($book);
     }
 
     /**
@@ -46,7 +54,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return new BookResource($book);
     }
 
     /**
@@ -67,9 +75,15 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        $book->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'publication_year' => $request->publication_year
+        ]);
+
+        return new BookResource($book);
     }
 
     /**
@@ -80,6 +94,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return response(null, 204);
     }
 }
