@@ -11,7 +11,7 @@ type Query {
     authors: [Author!]! @all
     author(id: Int! @eq): Author @find
 
-    books: [Book!]! @all
+    books: [Book!]! @paginate
     book(id: Int! @eq): Book @find
 }
 
