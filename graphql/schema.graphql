@@ -13,6 +13,9 @@ type Query {
 
     books: [Book!]! @paginate
     book(id: Int! @eq): Book @find
+
+    hello: String!
+    greetings(name: String!): String
 }
 
 type User {
